@@ -51,7 +51,7 @@ class SampleOutputContractTest {
 
     @Test
     void sampleAnswersMatchTheRequiredRowsStatusesAndOrderedStepContract() throws Exception {
-        Path file = Path.of("..", "dataset", "sample_output.csv");
+        Path file = TestDatasetPath.resolve().resolve("sample_output.csv");
         try (Reader reader = Files.newBufferedReader(file);
              CSVParser parser = CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
             assertEquals(32, parser.getRecords().size());

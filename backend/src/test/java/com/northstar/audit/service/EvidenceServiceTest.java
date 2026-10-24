@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.northstar.audit.TestDatasetPath;
 import org.junit.jupiter.api.Test;
 
 class EvidenceServiceTest {
-    private final EvidenceService evidence = new EvidenceService("../dataset");
+    private final EvidenceService evidence = new EvidenceService(TestDatasetPath.resolve().toString());
 
     @Test
     void listsManifestEvidenceAndReadsLocalImageContent() {

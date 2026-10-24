@@ -4,7 +4,7 @@
 
 The supplied `sample_output.csv` contains 32 gold-standard cases. The repository test `SampleOutputContractTest` read all 32 rows and passed checks for statuses, JSON structure, operation/state pairs, citations, consecutive step numbers, and canonical sequence order.
 
-This is a contract check against the reference file, not a comparison against AI-generated predictions. No OpenAI key was configured in this environment, so no provider analyses were run and accuracy cannot be reported honestly.
+This is a contract check against the reference file, not a comparison against AI-generated predictions. No AI provider key was configured in this environment, so no provider analyses were run and prediction accuracy cannot be reported honestly.
 
 | Metric | Result |
 | --- | --- |
@@ -18,7 +18,7 @@ This is a contract check against the reference file, not a comparison against AI
 
 ## Admin console data validation
 
-The admin workspace is backed by the imported challenge records rather than mock business data. The API integration test verifies 850 customer profiles, 4,011 system activity rows, and six browsable data tables (including deletion requests and the evidence manifest). It also checks paged customer search and retrieval of a customer profile with linked identity history, deletion requests, and activity. Supplied UI screenshots are not shown as project features because they are reference images rather than operational records. No customer-facing portal, fabricated orders, or fabricated support tickets were added. The final backend suite passes all 21 tests, and the React production build passes.
+The admin workspace is backed by the imported challenge records rather than mock business data. The API integration test verifies 850 customer profiles, 4,011 system activity rows, and six browsable data tables (including deletion requests and the evidence manifest). It also checks paged customer search and retrieval of a customer profile with linked identity history, deletion requests, and activity. Supplied UI screenshots are not shown as project features because they are reference images rather than operational records. No customer-facing portal, fabricated orders, or fabricated support tickets were added. The final backend suite passes all 23 tests, and the React production build passes.
 
 ## Additional team-created evaluation cases
 

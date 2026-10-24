@@ -2,7 +2,7 @@
 
 A full-stack workspace for reviewing the supplied Northstar Shop deletion requests and evidence, documenting findings and remediation plans, and exporting the required `output.csv`.
 
-The `dataset/` folder contains the challenge data from the supplied [HackerRank Orchestrate repository](https://github.com/interviewstreet/hackerrank-orchestrate-october26/tree/main/code), pinned to commit `acb3dfca6e94e4803a26e72c49074a488de93c93`: 518 requests, supporting CSVs, the evidence manifest, and all 94 evidence files. The application reads this bundled copy; it makes no GitHub, CDN, or third-party data requests at runtime.
+The `dataset/` folder contains the challenge data from the supplied [HackerRank Orchestrate repository](https://github.com/interviewstreet/hackerrank-orchestrate-october26/tree/main/code), pinned to commit `acb3dfca6e94e4803a26e72c49074a488de93c93`: 518 requests, supporting CSVs, the evidence manifest, and all 94 evidence files. The application reads this local copy; it makes no GitHub, CDN, or third-party data requests at runtime. The submission ZIP deliberately excludes this organizer-provided dataset; when running the packaged source, keep the challenge's `dataset/` folder beside `code/`.
 
 The app loads the included dataset into PostgreSQL at first startup and then keeps saved audit decisions in the database. Its admin console includes a customer directory with identity history and linked privacy requests, searchable views of imported source tables, an operational activity feed, and the deletion-audit workflow. Reference screenshots included with the dataset are not shown as application features because they are not operational records; there is no separate evidence-library page or customer-facing portal. Current and historical identifiers are resolved from the identity files. Explicit statements that the person is not requesting deletion are classified as `NOT_APPLICABLE` with no steps; ambiguous intent is shown for review. For other cases, optional OpenAI or Google Gemini analysis proposes a status and ordered steps. Individual recommendations require operator review and save; the confirmed batch action saves each validated provider result sequentially. The analysis does not execute destructive operations. The provider receives the request, matched identity/source rows, deletion rules, evidence manifest, and matching excerpts from text evidence. PDF and image bytes are not sent or inspected by the analysis.
 
@@ -85,13 +85,13 @@ For a non-local database, set `DATABASE_URL`, `DATABASE_USERNAME`, and `DATABASE
 
 ## Challenge submission
 
-`evaluation/evaluation_report.md` records the current evaluation status and its known limitations. The sample-output contract test runs as part of `mvn test`. To package the source and bundled dataset as `code.zip`, run:
+`evaluation/evaluation_report.md` and `evaluation/usage_report.md` record the evaluation state and model-usage details. The sample-output contract test runs as part of `mvn test`; it validates the supplied reference format and is not an AI-accuracy score. To package the runnable source and both reports as `code.zip`, run:
 
 ```powershell
 .\scripts\package-submission.ps1
 ```
 
-The AI accuracy metrics remain unmeasured until the 32 sample cases are actually analyzed with a configured provider key.
+The archive contains the application under `code/` and the required reports at `code/evaluation/`. It intentionally excludes the challenge dataset, generated output, credentials, build products, and Docker configuration. Submit the generated `output.csv` separately after completing and exporting all 518 reviewed cases. AI accuracy and usage metrics remain unmeasured until cases are analyzed with a configured provider key; do not describe the sample contract test as prediction accuracy.
 
 `NOT_APPLICABLE` is accepted only when the request text clearly says deletion was not requested and must have no steps. `COMPLETE` may contain verification steps only. `INCOMPLETE` must contain findings, remediation, and verification phases in that order. The API checks the allowed operation/phase/state combinations, sorts steps by the required phase/operation/system/resource order, and assigns consecutive step numbers. An operator remains responsible for confirming the evidence is sufficient to prove the policy requirements, including sync/restore safety and retention.
 
