@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: northstar-deletion-audit
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ghost_data}
+    username: ${DATABASE_USERNAME:ghost_data}
+    password: ${DATABASE_PASSWORD:local_dev_only}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+server:
+  port: ${PORT:8080}
+app:
+  dataset-directory: ${DATASET_DIRECTORY:../dataset}
+  ai:
+    provider: ${AI_PROVIDER:openai}
+    openai-api-key: ${OPENAI_API_KEY:}
+    gemini-api-key: ${GEMINI_API_KEY:}
+    model: ${AI_MODEL:${OPENAI_MODEL:}}
+    base-url: ${AI_BASE_URL:${OPENAI_BASE_URL:}}

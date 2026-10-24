@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ghost-data-postgres
+    environment:
+      POSTGRES_DB: ghost_data
+      POSTGRES_USER: ghost_data
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_dev_only}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ghost-data-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ghost_data -d ghost_data"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/ghost_data
+      DATABASE_USERNAME: ghost_data
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-local_dev_only}
+      DATASET_DIRECTORY: /app/dataset
+      AI_PROVIDER: ${AI_PROVIDER:-openai}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-${OPENAI_MODEL:-}}
+      AI_BASE_URL: ${AI_BASE_URL:-${OPENAI_BASE_URL:-}}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:8080"
+    depends_on:
+      - backend
+
+volumes:
+  ghost-data-postgres:
